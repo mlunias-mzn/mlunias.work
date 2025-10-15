@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Route, Routes } from 'react-router';
+import { CookiesProvider } from 'react-cookie';
 import './App.css'
 
-function App() {
-    const [count, setCount] = useState(0)
+import PageHome from './components/pages/PageHome';
+import PageSearch from './components/pages/PageSearch';
+import PageNotifications from './components/pages/PageNotifications';
+import PageProfile from './components/pages/PageProfile';
+import PageContent from './components/pages/PageContent';
+import Page404 from './components/pages/Page404';
 
+function App() {
     return (
-        <>
-            <div>
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
-    )
+        <CookiesProvider defaultSetOptions={{ path: '/' }}>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<PageHome />} />
+                    <Route path="/search" element={<PageSearch />} />
+                    <Route path="/notifications" element={<PageNotifications />} />
+                    <Route path="/profile" element={<PageProfile />} />
+                    <Route path="/error" element={<Page404 />} />
+                    <Route path="*" element={<PageContent />} />
+                </Routes>
+            </Router>
+        </CookiesProvider>
+    );
 }
 
 export default App
