@@ -1,20 +1,7 @@
+import type { ReactNode } from "react"
 import clsx from "clsx"
-import type { ReactNode } from "react";
-import { Link } from 'react-router';
-
-import { TbHome } from "react-icons/tb";
-import { TbSearch } from "react-icons/tb";
-import { TbBell } from "react-icons/tb";
-import { TbUser } from "react-icons/tb";
-
-export default function (props: { selected?: string }) {
-
-    return (
-        <>
-            <Dock selected={props.selected} />
-        </>
-    )
-}
+import { Link } from "react-router"
+import { TbHome, TbSearch, TbBell, TbUser } from "react-icons/tb";
 
 function Sidebar(props: { selected?: string }) {
     function SidebarButton(props: {
@@ -81,49 +68,6 @@ function Sidebar(props: { selected?: string }) {
                     </SidebarButton>
                 </ul>
             </div>
-        </div>
-    )
-}
-
-function Dock(props: { selected?: string }) {
-    function DockButton(props: {
-        keyName: string,
-        label?: string,
-        selected?: string,
-        href?: string
-        children?: ReactNode
-    }) {
-        const isSelected: boolean = props.selected == props.keyName && props.selected !== undefined
-        const href: string = props.href ?? `/${props.keyName}`
-
-        return (
-            <Link
-                className={clsx(isSelected && "dock-active", "text-primary-content hover:base-content/70")}
-                aria-label={props.label}
-                data-button-key={props.keyName}
-                aria-selected={isSelected}
-                to={href}
-            >
-                {props.children}
-            </Link>
-        )
-    }
-
-    /* md:hidden */
-    return (
-        <div className="dock dock-xs shadow-lg w-[100vw] bg-primary border-b-base-content/10 border-t-1">
-            <DockButton keyName="home" label="ホーム" selected={props.selected} href="/">
-                <TbHome className="size-[1.5em]" />
-            </DockButton>
-            <DockButton keyName="search" label="検索" selected={props.selected}>
-                <TbSearch className="size-[1.5em]" />
-            </DockButton>
-            <DockButton keyName="notifications" label="通知" selected={props.selected}>
-                <TbBell className="size-[1.5em]" />
-            </DockButton>
-            <DockButton keyName="profile" label="プロフィール" selected={props.selected}>
-                <TbUser className="size-[1.5em] " />
-            </DockButton>
         </div>
     )
 }
