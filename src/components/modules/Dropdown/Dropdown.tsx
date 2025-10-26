@@ -13,8 +13,13 @@ export default function Dropdown(props: {
         <div
             className={clsx(
                 "dropdown",
-                props.position && ("dropdown-" + props.position),
-                props.align && ("dropdown-" + props.align),
+                props.position == "top" && "dropdown-top",
+                props.position == "bottom" && "dropdown-bottom",
+                props.position == "right" && "dropdown-right",
+                props.position == "left" && "dropdown-left",
+                props.align == "end" && "dropdown-end",
+                props.align == "start" && "dropdown-start",
+                props.align == "center" && "dropdown-center",
                 props.hover && "dropdown-hover",
                 props.open && "dropdown-open"
             )}
@@ -38,10 +43,17 @@ export default function Dropdown(props: {
 export function DropdownItem(props: {
     active?: boolean
 } & DetailedHTMLProps<HTMLAttributes<HTMLLIElement>, HTMLLIElement>) {
+    const { active, className, ...liProps } = props
+
     return (
         <li
-            {...props}
-            className={clsx(props.active && "menu-active", "rounded-md", props.className)}
+            {...liProps}
+            aria-selected={active}
+            className={clsx(
+                active && "menu-active",
+                "rounded-md",
+                className
+            )}
         />
     )
 }

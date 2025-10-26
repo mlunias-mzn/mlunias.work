@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router";
-import Layout from "../features/Layout/Layout";
-import ItemList from "../../cogs/items/data";
+import Layout from "../../features/Layout/Layout";
+import ItemList from "../../../cogs/items/data";
 import { useEffect } from "react";
 
 export default function () {

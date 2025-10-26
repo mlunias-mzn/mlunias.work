@@ -6,7 +6,7 @@ export default function (props: { pageName: string, children?: ReactNode }) {
 
     return (
         <div
-            className="bg-base-200 text-base-content fixed top-0 h-full w-full overflow-y-scroll overflow-x-hidden"
+            className="bg-base-200 text-base-content fixed top-0 h-full w-full overflow-y-auto overflow-x-hidden"
             style={{
                 backgroundImage: "radial-gradient(circle, rgb(from var(--color-base-content) r g b / 0.3) 1px, transparent 1px)",
                 backgroundPosition: "0 0",
@@ -14,7 +14,7 @@ export default function (props: { pageName: string, children?: ReactNode }) {
             }}
         >
             <Header />
-            <div className="min-h-[100vh] box-border">
+            <div className="min-h-[calc(100vh-112px)] box-border">
                 {props.children ?? null}
             </div>
             <Footer selected={props.pageName} />

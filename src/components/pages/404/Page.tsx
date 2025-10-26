@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import Layout from "../features/Layout/Layout";
+import Layout from "../../features/Layout/Layout";
 
 export default function () {
     const navigate = useNavigate()

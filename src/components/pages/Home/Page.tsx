@@ -1,5 +1,5 @@
-import ContentsList from "../features/Contents/ContentsList";
-import Layout from "../features/Layout/Layout";
+import ContentsList from "../../features/Contents/ContentsList";
+import Layout from "../../features/Layout/Layout";
 
 export default function () {
     return (
