@@ -1,37 +1,11 @@
 
-import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { TbMoon, TbSun, TbDeviceDesktop } from "react-icons/tb";
+import { TbDeviceDesktop } from "react-icons/tb";
 import ThemeIcon from "./ThemeIcon";
-import Dropdown, { DropdownDivider, DropdownItem, DropdownLabel } from "../Dropdown/Dropdown";
+import Dropdown from "../Dropdown/Dropdown";
+import { changeTheme, getCurrentColorSchemeMode } from "./ColorScheme";
 
-export function getCurrentColorSchemeMode() {
-    const s = localStorage.theme
-    if (typeof s == "string") {
-        return s
-    } else {
-        localStorage.setItem('theme', 'system')
-        return "system"
-    }
-}
-
-export function changeTheme(colorSchemeMode?: string) {
-    if (!colorSchemeMode) colorSchemeMode = localStorage.getItem('theme') ?? "system"
-
-    if (typeof colorSchemeMode == "string" && colorSchemeMode !== "system") {
-        localStorage.setItem('theme', colorSchemeMode)
-        document.documentElement.setAttribute("data-theme", colorSchemeMode)
-    } else {
-        localStorage.setItem('theme', 'system')
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.setAttribute("data-theme", "dark")
-        } else {
-            document.documentElement.setAttribute("data-theme", "light")
-        }
-    }
-}
-
-export default function () {
+export default function ColorSchemeDropdown() {
     const [colorSchemeMode, setColorSchemeMode] = useState<string>(getCurrentColorSchemeMode())
     const [colorScheme, setColorScheme] = useState<string>(window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
 
@@ -67,7 +41,7 @@ export default function () {
 
     function DropdownTheme(props: { label: string, theme: string }) {
         return (
-            <DropdownItem
+            <Dropdown.Item
                 active={colorSchemeMode == props.theme}
                 data-theme-id={props.theme}
                 data-theme-label={props.label}
@@ -75,7 +49,7 @@ export default function () {
                 <a onClick={() => handleChange(props.theme)} aria-label={props.label}>
                     <ThemeIcon theme={props.theme} />{props.label}
                 </a>
-            </DropdownItem>
+            </Dropdown.Item>
         )
     }
 
@@ -91,15 +65,15 @@ export default function () {
                 </div>
             }
         >
-            <DropdownLabel>テーマ</DropdownLabel>
-            <DropdownItem active={colorSchemeMode == "system"}>
+            <Dropdown.Label>テーマ</Dropdown.Label>
+            <Dropdown.Item active={colorSchemeMode == "system"}>
                 <a onClick={() => handleChange("system")} aria-label="自動">
                     <TbDeviceDesktop className="size-[1.2em]" />自動
                 </a>
-            </DropdownItem>
+            </Dropdown.Item>
             <DropdownTheme label="ライト" theme="light" />
             <DropdownTheme label="ダーク" theme="dark" />
-            <DropdownDivider />
+            <Dropdown.Divider />
             <DropdownTheme label="レトロ" theme="retro" />
             <DropdownTheme label="バレンタイン" theme="valentine" />
             <DropdownTheme label="フォレスト" theme="forest" />

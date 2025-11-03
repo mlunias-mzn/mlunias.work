@@ -1,10 +1,10 @@
 
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { useNavigate } from "react-router";
-import { TbLock, TbUser, TbLogin2, TbCancel } from "react-icons/tb";
+import { TbUser, TbLogin2, TbCancel } from "react-icons/tb";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { login } from "../../../utils/login";
+import { login } from "../../../utils/auth/login";
 import TextInput from "../../modules/TextInput/TextInput";
 import Button from "../../modules/Button/Button";
 import clsx from "clsx";
@@ -64,7 +64,7 @@ export default function LoginForm() {
             method="post"
             onSubmit={SubmitHandler}
         >
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-3">
                 <TextInput
                     name="username"
                     id="input-username"
@@ -97,10 +97,8 @@ export default function LoginForm() {
                 type="submit"
                 startAdornment={<TbLogin2 />}
                 className="flex justify-center"
-                aria-label="ログイン"
-            >
-                ログイン
-            </Button>
+                label="ログイン"
+            />
         </form>
     )
 }

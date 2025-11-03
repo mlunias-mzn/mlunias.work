@@ -1,20 +1,24 @@
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import clsx from "clsx";
 import { Link } from "react-router";
 
 import { TbCake, TbMapPin, TbTag } from "react-icons/tb";
 import Layout from "../../features/Layout/Layout";
+import { Modal } from "../../modules/Modal/Modal";
+import Avatar from "../../modules/Avatar/Avatar";
+import Typography from "../../modules/Typography/Typography";
 
 export default function () {
+
     return (
         <Layout pageName="profile">
             <title>プロフィール | MILE</title>
             <div className="flex gap-4 w-full p-4 flex-col items-center">
                 <div className="card card-border bg-base-100 w-full max-w-[700px] p-1 place-items-center shadow-md">
                     <div className="card-body">
-                        <h2 className="card-title gap-4 text-2xl">
-                            <Avatar />
-                            まいる
+                        <h2 className="card-title gap-4">
+                            <UserIcon />
+                            <Typography tag="h2" size="2xl">まいる</Typography>
                         </h2>
                         <div className="flex flex-col items-end justify-between w-full gap-1 pt-2">
                             <LabeledTextContainer>
@@ -23,12 +27,12 @@ export default function () {
                                 <LabeledText icon={<TbTag />} label="コスプレイヤー" tooltip="内容" />
                             </LabeledTextContainer>
                         </div>
-                        <p>
-                            関西在住の男性コスプレイヤー。<br />
-                            ゲームやeスポーツ関連のライターとしても活動。<br />
-                            イベントや大会によくコスプレ姿で出没する。<br />
-                            好きな食べ物はハンバーガーとコーラ。趣味は電子書籍を読みながら寝落ちすること。<br />
-                        </p>
+                        <Typography whitespace="pre-line">
+                            {`関西在住の男性コスプレイヤー。
+                            ゲームやeスポーツ関連のライターとしても活動。
+                            イベントや大会によくコスプレ姿で出没する。
+                            好きな食べ物はハンバーガーとコーラ。趣味は電子書籍を読みながら寝落ちすること。`}
+                        </Typography>
                     </div>
                 </div>
             </div>
@@ -36,13 +40,27 @@ export default function () {
     )
 }
 
-function Avatar() {
+function UserIcon() {
+    const dialogRef = useRef<HTMLDialogElement | null>(null)
+
     return (
-        <div className="avatar hover:opacity-80 transition-all duration-300">
-            <div className="w-15 rounded-full">
+        <>
+            <Avatar
+                src="assets/images/profile/001.jpg"
+                aria-label="プロフィール"
+                alt="プロフィール画像"
+                tabIndex={0}
+                role="button"
+                className="cursor-pointer"
+                size={15}
+                onClick={() => {
+                    dialogRef.current?.showModal()
+                }}
+            />
+            <Modal ref={dialogRef}>
                 <img alt="プロフィール画像" src="assets/images/profile/001.jpg" />
-            </div>
-        </div>
+            </Modal>
+        </>
     )
 }
 

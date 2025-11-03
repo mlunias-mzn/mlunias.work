@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react"
 import { useNavigate } from "react-router"
 import clsx from "clsx";
 import { TbUser, TbLogin2, TbCheck, TbCancel } from "react-icons/tb";
-import { checkIsUsernameConflict, passwordStrength, signup, validatePassword, validateUsername } from "../../../utils/signup"
+import { checkIsUsernameConflict, passwordStrength, signup, validatePassword, validateUsername } from "../../../utils/auth/signup"
 import TextInput from "../../modules/TextInput/TextInput"
 import Button from "../../modules/Button/Button";
 import Progress from "../../modules/Progress/Progress";

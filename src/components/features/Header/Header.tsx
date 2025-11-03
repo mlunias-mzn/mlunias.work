@@ -1,10 +1,12 @@
 import { Link } from "react-router"
 import clsx from "clsx"
-import ColorScheme from "../../modules/ColorScheme/ColorScheme"
+import ColorSchemeDropdown from "../../modules/ColorScheme/ColorSchemeDropdown"
 import Logo from "../../modules/SVG/Logo"
 import Avatar from "../../modules/Avatar/Avatar"
 import { useEffect, useState, type DetailedHTMLProps, type HTMLAttributes } from "react"
-import Dropdown, { DropdownDivider, DropdownItem } from "../../modules/Dropdown/Dropdown"
+import Dropdown from "../../modules/Dropdown/Dropdown"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { user } from "../../../utils/auth/user"
 
 export default function () {
     return (
@@ -21,7 +23,7 @@ export default function () {
                 </Link>
             </div>
             <div className="flex gap-2 items-center">
-                <ColorScheme />
+                <ColorSchemeDropdown />
                 <AvatarDropdown />
             </div>
         </div>
@@ -30,9 +32,23 @@ export default function () {
 
 function AvatarDropdown() {
     const [username, setUsername] = useState<string | undefined>()
+    const [displayName, setDisplayName] = useState<string | undefined>()
+
+    const userMutation = useMutation({
+        mutationFn: user,
+        onSuccess: (data) => {
+            if (data.displayName || data.username) {
+                setUsername(data.username)
+                setDisplayName(data.displayName)
+            }
+        },
+        onError: (error: any) => {
+            console.error("Mutation error:", error);
+        },
+    })
 
     useEffect(() => {
-
+        userMutation.mutate()
     }, [])
 
     if (username) {
@@ -48,11 +64,12 @@ function AvatarDropdown() {
                     className="cursor-pointer"
                 />}
             >
-                <AvatarDropdownItem to="/profile" label="プロフィール" />
-                <AvatarDropdownItem to="/post" label="投稿" />
-                <AvatarDropdownItem to="/option" label="設定" />
-                <DropdownDivider />
-                <AvatarDropdownItem to="/logout" label="ログアウト" />
+                <Dropdown.Label>{displayName ?? username}</Dropdown.Label>
+                <AvatarDropdownItem to={`/@${username}`} label="プロフィール" />
+                <AvatarDropdownItem to={`/@${username}/post`} label="投稿" />
+                <AvatarDropdownItem to={`/option`} label="設定" />
+                <Dropdown.Divider />
+                <AvatarDropdownItem to="/auth?action=logout" label="ログアウト" />
             </Dropdown>
         )
     } else {
@@ -68,8 +85,9 @@ function AvatarDropdown() {
                     className="cursor-pointer"
                 />}
             >
+                <AvatarDropdownItem to="/profile" label="プロフィール" />
+                <Dropdown.Divider />
                 <AvatarDropdownItem key="signup" to="/auth?action=signup" label="登録" />
-                <DropdownDivider />
                 <AvatarDropdownItem key="login" to="/auth?action=login" label="ログイン" />
             </Dropdown>
         )
@@ -83,7 +101,7 @@ function AvatarDropdownItem(props: {
     label?: string
 } & DetailedHTMLProps<HTMLAttributes<HTMLLIElement>, HTMLLIElement>) {
     return (
-        <DropdownItem
+        <Dropdown.Item
             {...props}
             aria-label={props.label}
         >
@@ -98,6 +116,6 @@ function AvatarDropdownItem(props: {
                     {props.children}
                 </a>
             }
-        </DropdownItem>
+        </Dropdown.Item>
     )
 }

@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import type { AnchorHTMLAttributes, DetailedHTMLProps, HTMLAttributes } from "react"
+import { twMerge } from "tailwind-merge"
 
 export default function Tab(props: {
     variant?: "box" | "border" | "lift"
@@ -20,18 +21,21 @@ export default function Tab(props: {
         <div
             role={"tablist"}
             {...divProps}
-            className={clsx(
+            className={twMerge(
                 "tabs",
-                variant == "box" && "tabs-box",
-                variant == "border" && "tabs-border",
-                variant == "lift" && "tabs-lift",
-                position == "top" && "tabs-top",
-                position == "bottom" && "tabs-bottom",
-                size == "xs" && "tabs-xs",
-                size == "sm" && "tabs-sm",
-                size == "md" && "tabs-md",
-                size == "lg" && "tabs-lg",
-                size == "xl" && "tabs-xl",
+                "w-max",
+                clsx(
+                    variant == "box" && "tabs-box",
+                    variant == "border" && "tabs-border",
+                    variant == "lift" && "tabs-lift",
+                    position == "top" && "tabs-top",
+                    position == "bottom" && "tabs-bottom",
+                    size == "xs" && "tabs-xs",
+                    size == "sm" && "tabs-sm",
+                    size == "md" && "tabs-md",
+                    size == "lg" && "tabs-lg",
+                    size == "xl" && "tabs-xl"
+                ),
                 className
             )}
         >

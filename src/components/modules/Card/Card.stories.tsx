@@ -1,35 +1,87 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import React from 'react'
+import type { StoryFn as Story, Meta } from '@storybook/react'
 
-import Card from './Card';
+import Card, { type CardProps } from './Card'
+import Button from '../Button/Button'
 
-const meta = {
+export default {
     title: 'Layout/Card',
     component: Card,
-    parameters: {
-        layout: 'centered',
-    },
-    tags: ['autodocs'],
-    argTypes: {
-        title: {
-            control: "text",
-        },
-        children: {
-            control: false
-        }
-    },
-} satisfies Meta<typeof Card>;
+} as Meta
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export const Default: Story<CardProps> = (args) => {
+    return (
+        <Card {...args}>
+            <Card.Image
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes"
+            />
+            <Card.Body>
+                <Card.Title>Shoes!</Card.Title>
+                <p>If a dog chews shoes whose shoes does he choose?</p>
+                <Card.Actions className="justify-end">
+                    <Button color="primary">Buy Now</Button>
+                </Card.Actions>
+            </Card.Body>
+        </Card>
+    )
+}
 
-export const General: Story = {
-    args: {
-        title: "Card",
-        children: (<p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>)
-    },
-};
+export const Responsive: Story<CardProps> = (args) => {
+    return (
+        <div>
+            <div className="mb-3">
+                (vertical on small screen, horizontal on large screen)
+            </div>
+            <Card {...args} side="lg">
+                <Card.Image
+                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                    alt="Shoes"
+                />
+                <Card.Body>
+                    <Card.Title>Shoes!</Card.Title>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <Card.Actions className="justify-end">
+                        <Button color="primary">Buy Now</Button>
+                    </Card.Actions>
+                </Card.Body>
+            </Card>
+        </div>
+    )
+}
+
+export const Centered: Story<CardProps> = (args) => {
+    return (
+        <Card {...args}>
+            <Card.Image
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes"
+            />
+            <Card.Body className="items-center text-center">
+                <Card.Title>Shoes!</Card.Title>
+                <p>If a dog chews shoes whose shoes does he choose?</p>
+                <Card.Actions className="justify-end">
+                    <Button color="primary">Buy Now</Button>
+                </Card.Actions>
+            </Card.Body>
+        </Card>
+    )
+}
+
+export const ImageOverlay: Story<CardProps> = (args) => {
+    return (
+        <Card {...args} imageFull>
+            <Card.Image
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes"
+            />
+            <Card.Body>
+                <Card.Title tag="h2">Shoes!</Card.Title>
+                <p>If a dog chews shoes whose shoes does he choose?</p>
+                <Card.Actions className="justify-end">
+                    <Button color="primary">Buy Now</Button>
+                </Card.Actions>
+            </Card.Body>
+        </Card>
+    )
+}

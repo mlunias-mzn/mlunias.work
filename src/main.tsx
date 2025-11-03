@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import { changeTheme } from './components/modules/ColorScheme/ColorScheme.tsx';
+import { changeTheme } from './components/modules/ColorScheme/ColorScheme';
 
 function setStorageColorScheme() {
     const theme = localStorage["theme"]

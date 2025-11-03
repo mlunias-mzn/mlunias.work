@@ -2,7 +2,7 @@ import PasswordValidator from "password-validator"
 import { isStrongPassword } from "validator"
 
 export async function signup(username: string, password: string) {
-    return fetch("http://localhost:3000/api/signup", {
+    return fetch("http://localhost:3000/api/auth/signup", {
         method: "POST",
         headers: {
             'Origin': 'http://localhost:3000',

@@ -1,14 +1,19 @@
 import clsx from "clsx"
 import type { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react"
+import DropdownItem from "./DropdownItem"
+import { DropdownLabel } from "./DropdownLabel"
+import { DropdownDivider } from "./DropdownDivider"
 
-export default function Dropdown(props: {
+export interface DropdownProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     children?: ReactNode
     button?: ReactNode
     position?: "top" | "bottom" | "right" | "left"
     align?: "start" | "center" | "end"
     hover?: boolean
     open?: boolean
-}) {
+}
+
+function Dropdown(props: DropdownProps) {
     return (
         <div
             className={clsx(
@@ -30,7 +35,7 @@ export default function Dropdown(props: {
                 className={clsx(
                     "dropdown-content menu",
                     "bg-base-300 text-base-content",
-                    "border-1 border-base-content/10",
+                    "border border-base-content/10",
                     "rounded-box z-1 w-52 p-2 shadow-lg"
                 )}
             >
@@ -40,38 +45,8 @@ export default function Dropdown(props: {
     )
 }
 
-export function DropdownItem(props: {
-    active?: boolean
-} & DetailedHTMLProps<HTMLAttributes<HTMLLIElement>, HTMLLIElement>) {
-    const { active, className, ...liProps } = props
-
-    return (
-        <li
-            {...liProps}
-            aria-selected={active}
-            className={clsx(
-                active && "menu-active",
-                "rounded-md",
-                className
-            )}
-        />
-    )
-}
-
-export function DropdownLabel(props: DetailedHTMLProps<HTMLAttributes<HTMLLIElement>, HTMLLIElement>) {
-    return (
-        <li
-            {...props}
-            className={clsx("menu-title", props.className)}
-        />
-    )
-}
-
-export function DropdownDivider(props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
-    return (
-        <div
-            {...props}
-            className={clsx("divider my-0", props.className)}
-        />
-    )
-}
+export default Object.assign(Dropdown, {
+    Item: DropdownItem,
+    Label: DropdownLabel,
+    Divider: DropdownDivider
+})

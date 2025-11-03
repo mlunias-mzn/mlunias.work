@@ -1,59 +1,88 @@
 import clsx from "clsx"
 import type { DetailedHTMLProps, HTMLAttributes } from "react"
+import { twMerge } from "tailwind-merge"
+import { tv } from "tailwind-variants"
+import CardBody from "./CardBody"
+import CardTitle from "./CardTitle"
+import CardImage from "./CardImage"
+import CardActions from "./CardActions"
 
-export default function Card(props: {
-} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
-    const { className, children, ...divProps } = props
+export interface CardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    size?: "xs" | "sm" | "md" | "lg" | "xl"
+    variant?: "border" | "dash" | "none"
+    align?: "center" | "start" | "end" | "baseline",
+    side?: "xs" | "sm" | "md" | "lg" | "xl" | boolean
+    imageFull?: boolean
+}
+
+const cardClassName = tv({
+    base: "card w-full max-w-[700px] p-1 bg-base-100 shadow-lg",
+    variants: {
+        variant: {
+            border: "card-border",
+            dash: "card-dash",
+            none: ""
+        },
+        align: {
+            center: "place-items-center",
+            baseline: "place-items-baseline",
+            start: "place-items-start",
+            end: "place-items-end"
+        },
+        size: {
+            xs: "card-xs",
+            sm: "card-sm",
+            md: "card-md",
+            lg: "card-lg",
+            xl: "card-xl"
+        },
+        side: {
+            xs: "xs:card-side",
+            sm: "sm:card-side",
+            md: "md:card-side",
+            lg: "lg:card-side",
+            xl: "xl:card-side",
+            true: "card-side",
+            false: ""
+        },
+        imageFull: {
+            true: "image-full",
+            false: ""
+        }
+    }
+})
+
+function Card(props: CardProps) {
+    const {
+        size,
+        variant,
+        align,
+        side,
+        imageFull,
+        className,
+        children,
+        ...divProps
+    } = props
 
     return (
         <div
             {...divProps}
-            className={clsx("card card-border bg-base-100 w-full max-w-[700px] p-1 place-items-center shadow-md", className)}
+            className={twMerge(
+                cardClassName({
+                    size, variant, align, side, imageFull
+                }),
+                className
+            )}
         >
             {children}
         </div >
     )
 }
 
-export function CardContent(props: {
 
-} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
-    const { children, className, ...divProps } = props
-
-    return (
-        <div className="card-body">
-            <div
-                {...divProps}
-                className={clsx("flex flex-col items-end justify-between w-full gap-1 pt-2", className)}
-            >
-                {children}
-            </div>
-        </div>
-    )
-}
-
-export function CardTitle(props: {
-    align?: "center" | "start" | "end"
-} & DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>) {
-    const {
-        align,
-        className,
-        children,
-        ...h2Props
-    } = props
-
-    return (
-        <h2
-            {...h2Props}
-            className={clsx(
-                "card-title flex gap-4 text-2xl justify-center",
-                align == "center" && "justify-center",
-                align == "end" && "justify-end",
-                align == "start" && "justify-start",
-                className
-            )}
-        >
-            {children}
-        </h2>
-    )
-}
+export default Object.assign(Card, {
+    Title: CardTitle,
+    Body: CardBody,
+    Image: CardImage,
+    Actions: CardActions
+})

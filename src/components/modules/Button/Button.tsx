@@ -1,18 +1,75 @@
-import clsx from "clsx"
-import type { ReactNode } from "react"
+import type { ElementType, ReactNode } from "react"
+import { twMerge } from "tailwind-merge"
+import { tv } from "tailwind-variants"
 
-export default function Button(props: {
+export interface ButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     size?: "xs" | "sm" | "md" | "lg" | "xl"
     color?: "neutral" | "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error"
     variant?: "outline" | "dash" | "soft" | "ghost" | "link"
     active?: boolean
     wide?: boolean
     block?: boolean
-    square?: boolean
-    circle?: boolean
+    shape?: "square" | "circle"
+    responsive?: boolean
+    glass?: boolean
+    label?: string
     startAdornment?: ReactNode
     endAdornment?: ReactNode
-} & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+}
+
+const buttonClassName = tv({
+    base: "btn",
+    variants: {
+        size: {
+            xs: "btn-xs",
+            sm: "btn-sm",
+            md: "btn-md",
+            lg: "btn-lg",
+            xl: "btn-xl"
+        },
+        color: {
+            neutral: "btn-neutral",
+            primary: "btn-primary",
+            secondary: "btn-secondary",
+            accent: "btn-accent",
+            info: "btn-info",
+            success: "btn-success",
+            warning: "btn-warning",
+            error: "btn-error"
+        },
+        variant: {
+            outline: "btn-outline",
+            dash: "btn-dash",
+            soft: "btn-soft",
+            ghost: "btn-ghost",
+            link: "btn-link"
+        },
+        active: {
+            true: "btn-active"
+        },
+        disabled: {
+            true: "btn-disabled"
+        },
+        wide: {
+            true: "btn-wide"
+        },
+        block: {
+            true: "btn-block"
+        },
+        shape: {
+            square: "btn-square",
+            circle: "btn-circle"
+        },
+        responsive: {
+            true: "btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+        },
+        glass: {
+            true: "glass"
+        }
+    }
+})
+
+export default function Button(props: ButtonProps) {
     const {
         size,
         color,
@@ -21,8 +78,10 @@ export default function Button(props: {
         disabled,
         wide,
         block,
-        square,
-        circle,
+        shape,
+        responsive,
+        glass,
+        label,
         className,
         startAdornment,
         endAdornment,
@@ -30,42 +89,24 @@ export default function Button(props: {
         ...buttonProps
     } = props
 
+    const Tag = "button"
+
     return (
-        <button
+        <Tag
             {...buttonProps}
             aria-disabled={disabled}
-            className={clsx(
-                "btn",
-                size == "xs" && "btn-xs",
-                size == "sm" && "btn-sm",
-                size == "md" && "btn-md",
-                size == "lg" && "btn-lg",
-                size == "xl" && "btn-xl",
-                color == "neutral" && "btn-neutral",
-                color == "primary" && "btn-primary",
-                color == "secondary" && "btn-secondary",
-                color == "accent" && "btn-accent",
-                color == "info" && "btn-info",
-                color == "success" && "btn-success",
-                color == "warning" && "btn-warning",
-                color == "error" && "btn-error",
-                variant == "outline" && "btn-outline",
-                variant == "dash" && "btn-dash",
-                variant == "soft" && "btn-soft",
-                variant == "ghost" && "btn-ghost",
-                variant == "link" && "btn-link",
-                active && "btn-active",
-                disabled && "btn-disabled",
-                wide && "btn-wide",
-                block && "btn-block",
-                square && "btn-square",
-                circle && "btn-circle",
+            aria-label={label}
+            className={twMerge(
+                buttonClassName({
+                    size, color, variant, active, disabled, wide, block, shape, responsive, glass
+                }),
                 className,
             )}
         >
             {startAdornment}
+            {label}
             {children}
             {endAdornment}
-        </button>
+        </Tag>
     )
 }
